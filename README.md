@@ -1,3 +1,11 @@
+
+==================================================================
+Forked version -- features added
+-import any VMF / Source keyValue format
+-export to json / pretty json
+
+import vmf files
+
 vmflib: a Python package for creating Valve Map Format (VMF) files
 ==================================================================
 
