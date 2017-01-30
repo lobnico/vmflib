@@ -1,8 +1,9 @@
 import re
 from collections import OrderedDict
 import json
-from vmflib.vmf import VmfClass
+from vmf import VmfClass
 from math import cos, sin, radians
+
 
 reString = re.compile("(\s+)?([A-z0-9\"]+)\s+?([A-z0-9\"].+)")
 
@@ -34,7 +35,7 @@ def _getKeyValue(buf):
             return [kv.group(2).split("\"")[1] if "\"" in kv.group(2) else kv.group(2) ,
                 kv.group(3).split("\"")[1] if "\"" in kv.group(3) else kv.group(3)]
 
-class KeyValueFileToVDF(VmfClass):
+class KeyValueFileToVMFClass(VmfClass):
 
     def __init__(
         self, 

@@ -93,5 +93,18 @@ class Block():
         """Returns the top Side of the Block."""
         return self.brush.children[0]
 
+    def ad(self):
+        """Returns the top Side of the Block."""
+        return self.brush.children[2]
+    def bc(self):
+        """Returns the top Side of the Block."""
+        return self.brush.children[3]
+    def ab(self):
+        """Returns the top Side of the Block."""
+        return self.brush.children[4]
+    def cd(self):
+        """Returns the top Side of the Block."""
+        return self.brush.children[5]
+
     def __repr__(self, tab_level=-1):
         return self.brush.__repr__(tab_level)

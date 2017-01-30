@@ -3,8 +3,7 @@
 Main classes for working with VMF maps.
 
 """
-
-from vmflib import types
+import types
 
 
 ###############################################################################
@@ -17,7 +16,7 @@ class VmfClass:
 
     vmf_class_name = 'UntitledClass'
 
-    def __init__(self):
+    def __init__(self, properties={}):
         self.properties = {}
         self.auto_properties = []
         self.children = []
@@ -54,6 +53,84 @@ class VmfClass:
         # Print close brace
         if (self.vmf_class_name):
             string += tab_prefix + '}\n'
+
+        return string
+
+
+    # Render this class as a _json__ parsable string
+    def __prettyjson__(self, tab_level=0):
+        string = ''
+
+        # Generate line prefixes (tab characters) for later
+        tab_prefix = ''
+        for i in range(tab_level):
+            tab_prefix += '\t'
+        tab_prefix_inner = tab_prefix + '\t'
+
+        # Generate class declaration and opening brace
+
+
+        if (self.vmf_class_name):
+            string +=  '%s{\n%s\t"_nodeClassname": "%s",\n' % (tab_prefix, tab_prefix, self.vmf_class_name)
+
+        # Print auto properties (properties bound to instance attributes)
+        for attr_name in self.auto_properties:
+            value = getattr(self, attr_name)
+            if value is not None:
+                string += '%s"%s": "%s"\n' % (tab_prefix_inner, attr_name, value)
+
+        # Print properties
+        for item in self.properties.items():
+            string += '%s"%s": "%s",\n' % (tab_prefix_inner, item[0], item[1])
+
+        # Print child groups
+        childStr = ""
+        for child in self.children:
+            childStr += child.__json__(tab_level + 2)
+        if childStr:
+            string += ('%s"%s": [\n' % (tab_prefix_inner, "_children")
+                +  childStr
+                + '%s]\n' % (tab_prefix_inner))
+
+        # Print close brace
+        if (self.vmf_class_name):
+            string += tab_prefix + '},\n'
+
+        return string
+
+
+    def __json__(self, tab_level=0):
+        return self.___json__()[0:-1]
+
+    def ___json__(self, tab_level=0):
+        string = ''
+
+        if (self.vmf_class_name):
+            string +=  '{"_nodeClassname":"%s",' % (self.vmf_class_name)
+
+        # Print auto properties (properties bound to instance attributes)
+        for attr_name in self.auto_properties:
+            value = getattr(self, attr_name)
+            if value is not None:
+                string += '"%s":"%s"' % (attr_name, value)
+
+        # Print properties
+        for item in self.properties.items():
+            string += '"%s":"%s",' % (item[0], item[1])
+
+        # Print child groups
+        childStr = ""
+        for child in self.children:
+            childStr += child.___json__(tab_level + 2)
+        if childStr:
+            string += ('"%s":[' % ("_children")
+                +  childStr[0:-1]
+                + ']')
+        else:
+            string = string[0:-1]
+        # Print close brace
+        if (self.vmf_class_name):
+            string += '},'
 
         return string
 

@@ -1,10 +1,8 @@
 
 
 import sys
-import vmflib
 import json
-from vmflib.vmf import VmfClass
-from vmflib.KeyValueFileToVDF import KeyValueFileToVDF
+from KeyValueFileToVMFClass import KeyValueFileToVMFClass
 
 if len(sys.argv) <= 1 or sys.argv[1] == None:
 	print("usage: ./VMF2JSON.py <keyValueFileToImport> <VMFMapTranslationX Y Z> <VMFMapTranslationZaxis>")	
@@ -14,11 +12,9 @@ VMFMapTranslationY = 0.0
 VMFMapTranslationZ = 0.0
 VMFMapTranslationZaxis = 0.0
 
-if len(sys.argv) <= 1 or sys.argv[1] == None:
-
 if len(sys.argv) > 2:
-	VMFMapTranslationX, VMFMapTranslationY, VMFMapTranslationZ, VMFMapTranslationZaxis = (*sys.argv[2:])
-objTemplate = KeyValueFileToVDF(fileName, "importedElem", (
+	VMFMapTranslationX, VMFMapTranslationY, VMFMapTranslationZ, VMFMapTranslationZaxis = sys.argv[2:]
+objTemplate = KeyValueFileToVMFClass(fileName, "importedElem", (
 	0.0, 
 	0.0, 
 	0.0), 0.0)
